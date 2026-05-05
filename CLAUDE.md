@@ -1,4 +1,4 @@
-# MomiosMX — Guía del proyecto para Claude Code
+# MomioClave — Guía del proyecto para Claude Code
 
 > Este archivo es la fuente de verdad sobre el proyecto. Léelo completo al inicio de cada sesión.
 > Actualízalo cuando se tomen decisiones importantes (estilo, stack, posicionamiento).
@@ -170,7 +170,7 @@ src/
 - "+18 · Solo mayores de 18 años"
 - Aviso de juego responsable con link a /juego-responsable
 - Declaración de afiliación cuando aplique
-- Aclaración de que MomiosMX no opera juegos de azar, solo provee información
+- Aclaración de que MomioClave no opera juegos de azar, solo provee información
 
 ---
 

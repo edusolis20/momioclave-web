@@ -29,4 +29,4 @@ El hándicap asiático da una ventaja de goles a uno de los equipos antes de que
 
 Primero, el empate —que en el 1X2 es un resultado difícil de predecir— desaparece como factor. Segundo, al tener solo dos opciones en lugar de tres, los momios son más competitivos. Tercero, y más importante: el mercado de hándicap asiático es más eficiente porque atrae más dinero informado, lo que significa que las probabilidades implícitas son más precisas.
 
-Si quieres empezar a usar hándicap asiático, el comparador de MomiosMX incluye estos mercados para los partidos de Liga MX.
+Si quieres empezar a usar hándicap asiático, el comparador de MomioClave incluye estos mercados para los partidos de Liga MX.
