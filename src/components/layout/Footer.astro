@@ -1,0 +1,86 @@
+---
+const año = new Date().getFullYear();
+---
+
+<footer class="bg-gray-950 text-gray-400">
+  <!-- Main footer -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+      <!-- Brand -->
+      <div class="lg:col-span-1">
+        <div class="flex items-center gap-2 mb-4">
+          <div class="w-8 h-8 bg-blue-900 rounded-lg flex items-center justify-center">
+            <span class="text-emerald-400 font-black text-sm">M</span>
+          </div>
+          <span class="text-white font-bold text-xl tracking-tight">
+            Momios<span class="text-emerald-400">MX</span>
+          </span>
+        </div>
+        <p class="text-sm leading-relaxed text-gray-500">
+          El analista honesto. Comparamos momios y educamos sobre apuestas deportivas.
+          No somos tipsters ni hacemos pronósticos.
+        </p>
+      </div>
+
+      <!-- Navegación -->
+      <div>
+        <h4 class="text-white font-semibold text-sm mb-4 uppercase tracking-wider">Herramientas</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/comparador" class="hover:text-white transition-colors">Comparador de Momios</a></li>
+          <li><a href="/casas" class="hover:text-white transition-colors">Casas de Apuestas</a></li>
+          <li><a href="/aprende" class="hover:text-white transition-colors">Centro Educativo</a></li>
+          <li><a href="/blog" class="hover:text-white transition-colors">Blog</a></li>
+        </ul>
+      </div>
+
+      <!-- Aprende -->
+      <div>
+        <h4 class="text-white font-semibold text-sm mb-4 uppercase tracking-wider">Aprende</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/aprende/que-es-un-momio" class="hover:text-white transition-colors">¿Qué es un momio?</a></li>
+          <li><a href="/aprende/el-margen-de-la-casa" class="hover:text-white transition-colors">El margen de la casa</a></li>
+          <li><a href="/aprende/value-betting-encontrar-valor" class="hover:text-white transition-colors">Value Betting</a></li>
+          <li><a href="/aprende/criterio-de-kelly-gestion-bankroll" class="hover:text-white transition-colors">Criterio de Kelly</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal -->
+      <div>
+        <h4 class="text-white font-semibold text-sm mb-4 uppercase tracking-wider">Legal</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/juego-responsable" class="hover:text-white transition-colors">Juego Responsable</a></li>
+          <li><a href="/privacidad" class="hover:text-white transition-colors">Política de Privacidad</a></li>
+          <li><a href="/terminos" class="hover:text-white transition-colors">Términos de Uso</a></li>
+          <li><a href="/sobre-nosotros" class="hover:text-white transition-colors">Sobre Nosotros</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Disclaimer bar -->
+  <div class="border-t border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <!-- 18+ badges -->
+        <div class="flex items-center gap-3 flex-shrink-0">
+          <span class="inline-flex items-center justify-center w-9 h-9 border-2 border-red-500 text-red-500 font-black text-xs rounded-full">
+            +18
+          </span>
+          <span class="text-xs text-gray-500">Solo mayores de 18 años</span>
+        </div>
+        <!-- Disclaimer text -->
+        <p class="text-xs text-gray-600 leading-relaxed max-w-2xl">
+          Las apuestas deportivas conllevan riesgo de pérdida de dinero. El contenido de este sitio
+          es de carácter educativo e informativo. Algunos enlaces son de afiliados: podemos recibir
+          comisión si te registras. Esto no influye en nuestras evaluaciones.
+          <a href="/juego-responsable" class="text-emerald-500 hover:underline ml-1">Juega responsablemente.</a>
+        </p>
+      </div>
+      <p class="text-xs text-gray-700 mt-4 text-center">
+        &copy; {año} MomiosMX. Todos los derechos reservados. Operamos con fines educativos,
+        no somos una casa de apuestas ni ofrecemos servicios de pronósticos pagos.
+      </p>
+    </div>
+  </div>
+</footer>

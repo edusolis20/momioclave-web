@@ -1,0 +1,92 @@
+---
+const navLinks = [
+  { href: '/comparador', label: 'Comparador' },
+  { href: '/aprende', label: 'Aprende' },
+  { href: '/casas', label: 'Casas' },
+  { href: '/blog', label: 'Blog' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-2 flex-shrink-0">
+        <div class="w-8 h-8 bg-blue-900 rounded-lg flex items-center justify-center">
+          <span class="text-emerald-400 font-black text-sm leading-none">M</span>
+        </div>
+        <span class="text-blue-900 font-bold text-xl tracking-tight">
+          Momios<span class="text-emerald-500">MX</span>
+        </span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-1">
+        {navLinks.map(link => (
+          <a
+            href={link.href}
+            class={[
+              'px-4 py-2 rounded-md text-sm font-medium transition-colors',
+              currentPath.startsWith(link.href)
+                ? 'text-blue-900 bg-blue-50'
+                : 'text-gray-600 hover:text-blue-900 hover:bg-gray-50'
+            ].join(' ')}
+          >
+            {link.label}
+          </a>
+        ))}
+      </nav>
+
+      <!-- CTA + Mobile menu button -->
+      <div class="flex items-center gap-3">
+        <a
+          href="/comparador"
+          class="hidden sm:inline-flex items-center px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-semibold rounded-lg transition-colors"
+        >
+          Ver comparador
+        </a>
+
+        <!-- Mobile hamburger -->
+        <button
+          id="mobile-menu-btn"
+          class="md:hidden p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+          aria-label="Abrir menú"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Nav -->
+    <nav id="mobile-menu" class="hidden md:hidden pb-4 border-t border-gray-100 mt-1 pt-3">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          class="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-900 hover:bg-blue-50"
+        >
+          {link.label}
+        </a>
+      ))}
+      <a
+        href="/comparador"
+        class="block mt-2 px-3 py-2 bg-emerald-500 text-white text-sm font-semibold rounded-lg text-center"
+      >
+        Ver comparador
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  btn?.addEventListener('click', () => {
+    menu?.classList.toggle('hidden');
+  });
+</script>

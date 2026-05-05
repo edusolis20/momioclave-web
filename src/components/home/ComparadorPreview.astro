@@ -1,0 +1,141 @@
+---
+import { partidos, getMejorMomio, CASAS_DISPLAY } from '../../data/partidos';
+import type { Casa, MomiosPorCasa } from '../../data/partidos';
+
+const CASAS: Casa[] = ['caliente', 'playdoit', 'codere', 'strendus'];
+const preview = partidos.slice(0, 3);
+
+function formatFecha(iso: string) {
+  const d = new Date(iso + 'T12:00:00');
+  return d.toLocaleDateString('es-MX', { weekday: 'short', day: 'numeric', month: 'short' });
+}
+
+function isMejor(momios: MomiosPorCasa, casa: Casa): boolean {
+  return getMejorMomio(momios).casa === casa;
+}
+---
+
+<section class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+  <div class="max-w-7xl mx-auto">
+
+    <!-- Section header -->
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+      <div>
+        <p class="text-emerald-600 text-sm font-semibold uppercase tracking-widest mb-2">Comparador</p>
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">
+          Mejores momios · Liga MX
+        </h2>
+        <p class="text-gray-500 mt-1 text-sm">
+          El <span class="text-emerald-600 font-semibold">verde</span> indica el mejor momio disponible para ese resultado
+        </p>
+      </div>
+      <a
+        href="/comparador"
+        class="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-900 hover:text-blue-700 transition-colors whitespace-nowrap"
+      >
+        Ver los 15 partidos
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Table wrapper -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-gray-50 border-b border-gray-100">
+              <th class="text-left py-3 px-4 font-semibold text-gray-700 min-w-[180px]">Partido</th>
+              <th class="text-center py-3 px-3 font-semibold text-gray-500 text-xs uppercase tracking-wide w-24">Fecha</th>
+              <th class="text-center py-3 px-4 font-semibold text-gray-700 min-w-[80px]">Caliente</th>
+              <th class="text-center py-3 px-4 font-semibold text-gray-700 min-w-[80px]">Playdoit</th>
+              <th class="text-center py-3 px-4 font-semibold text-gray-700 min-w-[80px]">Codere</th>
+              <th class="text-center py-3 px-4 font-semibold text-gray-700 min-w-[80px]">Strendus</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-50">
+            {preview.map((partido) => (
+              <>
+                {/* Local row */}
+                <tr class="hover:bg-gray-50/50 transition-colors">
+                  <td class="py-3 px-4" rowspan={3}>
+                    <div class="font-semibold text-gray-900">{partido.local} vs {partido.visitante}</div>
+                    <div class="text-xs text-gray-400 mt-0.5">{partido.liga}</div>
+                  </td>
+                  <td class="py-3 px-3 text-center text-xs text-gray-500" rowspan={3}>
+                    <div class="font-medium">{formatFecha(partido.fecha)}</div>
+                    <div class="text-gray-400">{partido.hora}</div>
+                  </td>
+                  {CASAS.map(casa => {
+                    const mejor = isMejor(partido.momios.local, casa);
+                    return (
+                      <td class={`py-3 px-4 text-center ${mejor ? 'text-emerald-600 font-bold' : 'text-gray-700'}`}>
+                        <div class="flex flex-col items-center gap-0.5">
+                          <span class={mejor ? 'bg-emerald-50 px-2 py-0.5 rounded text-emerald-700 font-bold' : ''}>
+                            {partido.momios.local[casa].toFixed(2)}
+                          </span>
+                          <span class="text-[10px] text-gray-400">Local</span>
+                        </div>
+                      </td>
+                    );
+                  })}
+                </tr>
+
+                {/* Empate row */}
+                <tr class="hover:bg-gray-50/50 transition-colors">
+                  {CASAS.map(casa => {
+                    const mejor = isMejor(partido.momios.empate, casa);
+                    return (
+                      <td class={`py-2 px-4 text-center ${mejor ? 'text-emerald-600 font-bold' : 'text-gray-700'}`}>
+                        <div class="flex flex-col items-center gap-0.5">
+                          <span class={mejor ? 'bg-emerald-50 px-2 py-0.5 rounded text-emerald-700 font-bold' : ''}>
+                            {partido.momios.empate[casa].toFixed(2)}
+                          </span>
+                          <span class="text-[10px] text-gray-400">Empate</span>
+                        </div>
+                      </td>
+                    );
+                  })}
+                </tr>
+
+                {/* Visitante row */}
+                <tr class="hover:bg-gray-50/50 transition-colors border-b-2 border-gray-100">
+                  {CASAS.map(casa => {
+                    const mejor = isMejor(partido.momios.visitante, casa);
+                    return (
+                      <td class={`py-3 px-4 text-center ${mejor ? 'text-emerald-600 font-bold' : 'text-gray-700'}`}>
+                        <div class="flex flex-col items-center gap-0.5">
+                          <span class={mejor ? 'bg-emerald-50 px-2 py-0.5 rounded text-emerald-700 font-bold' : ''}>
+                            {partido.momios.visitante[casa].toFixed(2)}
+                          </span>
+                          <span class="text-[10px] text-gray-400">Visitante</span>
+                        </div>
+                      </td>
+                    );
+                  })}
+                </tr>
+              </>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Footer CTA -->
+      <div class="px-4 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
+        <p class="text-xs text-gray-500">
+          Momios en formato decimal · Actualizado: hoy
+        </p>
+        <a
+          href="/comparador"
+          class="inline-flex items-center gap-1.5 text-sm font-semibold text-white bg-blue-900 hover:bg-blue-800 px-4 py-2 rounded-lg transition-colors"
+        >
+          Ver comparador completo
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

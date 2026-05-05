@@ -1,0 +1,72 @@
+---
+---
+
+<section class="py-16 px-4 sm:px-6 lg:px-8 bg-slate-50">
+  <div class="max-w-7xl mx-auto">
+    <div class="max-w-2xl mx-auto text-center">
+
+      <!-- Icon -->
+      <div class="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+        <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+        </svg>
+      </div>
+
+      <!-- Copy -->
+      <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
+        Un artículo por semana. Sin spam.
+      </h2>
+      <p class="text-gray-500 text-base mb-8">
+        Cada semana un análisis profundo sobre momios, estrategia o psicología de las apuestas.
+        Sin pronósticos. Sin "tips del día". Solo educación honesta.
+      </p>
+
+      <!-- Form -->
+      <form
+        id="newsletter-form"
+        class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+        novalidate
+      >
+        <input
+          type="email"
+          name="email"
+          placeholder="tu@correo.com"
+          required
+          class="flex-1 px-4 py-3 bg-white text-gray-900 placeholder-gray-400 border border-gray-200 rounded-xl focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-sm"
+        />
+        <button
+          type="submit"
+          class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl transition-colors text-sm whitespace-nowrap"
+        >
+          Suscribirme
+        </button>
+      </form>
+
+      <!-- Success message (hidden by default) -->
+      <div id="newsletter-success" class="hidden mt-4 text-emerald-600 text-sm font-medium">
+        ¡Listo! Te avisamos con el próximo artículo.
+      </div>
+
+      <p class="text-gray-400 text-xs mt-4">
+        Sin spam. Cancela cuando quieras. Al suscribirte aceptas nuestra
+        <a href="/privacidad" class="underline hover:text-gray-600">política de privacidad</a>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('newsletter-form') as HTMLFormElement | null;
+  const success = document.getElementById('newsletter-success');
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = (form.elements.namedItem('email') as HTMLInputElement)?.value;
+    if (!email) return;
+
+    // Mock submission
+    form.classList.add('hidden');
+    success?.classList.remove('hidden');
+  });
+</script>

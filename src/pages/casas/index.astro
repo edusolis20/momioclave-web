@@ -1,0 +1,224 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const casas = await getCollection('casas');
+const casasOrdenadas = [...casas].sort((a, b) => b.data.rating - a.data.rating);
+
+const criterios = [
+  {
+    titulo: 'Calidad de momios',
+    peso: '40%',
+    descripcion: 'Comparamos el margen de la casa en los mercados más populares de Liga MX y fútbol internacional. Menor margen = más valor para el apostador.',
+    icono: '📊',
+  },
+  {
+    titulo: 'Velocidad de retiros',
+    peso: '25%',
+    descripcion: 'Medimos el tiempo real de procesamiento de retiros por SPEI y otros métodos disponibles en México, incluyendo fines de semana.',
+    icono: '⚡',
+  },
+  {
+    titulo: 'Variedad de mercados',
+    peso: '20%',
+    descripcion: 'Cantidad de deportes, ligas y mercados alternativos disponibles. Más variedad permite diversificar y encontrar oportunidades de valor.',
+    icono: '🎯',
+  },
+  {
+    titulo: 'Experiencia de usuario',
+    peso: '15%',
+    descripcion: 'Calidad de la app móvil, facilidad de registro, proceso KYC y calidad del soporte al cliente en español.',
+    icono: '✦',
+  },
+];
+
+function renderRatingBar(value: number) {
+  const pct = (value / 5) * 100;
+  return pct;
+}
+---
+
+<BaseLayout
+  title="Casas de apuestas en México"
+  description="Comparativa independiente de las mejores casas de apuestas en México: Caliente, Playdoit, Codere y Strendus. Momios, bonos, retiros y experiencia."
+>
+
+  <!-- Hero -->
+  <section class="bg-white pt-14 pb-12 px-4 sm:px-6 lg:px-8 border-b border-gray-100">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-emerald-600 text-xs font-semibold uppercase tracking-widest mb-4">Casas de apuestas</p>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">
+        Las mejores opciones en México
+      </h1>
+      <p class="text-gray-500 text-lg leading-relaxed">
+        Evaluamos cada plataforma en base a momios, velocidad de retiro, variedad de mercados
+        y experiencia de usuario. Nuestras reseñas son independientes.
+      </p>
+      <p class="text-xs text-gray-400 mt-4">
+        Solo incluimos operadores con permiso SEGOB vigente en México. Puede contener enlaces de afiliados.
+      </p>
+    </div>
+  </section>
+
+  <!-- Quick comparison table -->
+  <section class="py-10 px-4 sm:px-6 lg:px-8 bg-white">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-lg font-bold text-gray-900 mb-5">Comparativa rápida</h2>
+      <div class="overflow-x-auto rounded-2xl border border-gray-100 shadow-sm">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-gray-50 border-b border-gray-100">
+              <th class="text-left py-3 px-5 font-semibold text-gray-700 min-w-[120px]">Casa</th>
+              <th class="text-left py-3 px-4 font-semibold text-gray-700 min-w-[200px]">Bono de bienvenida</th>
+              <th class="text-center py-3 px-4 font-semibold text-gray-700">Rating</th>
+              <th class="text-left py-3 px-4 font-semibold text-gray-700 min-w-[160px]">Mejor para</th>
+              <th class="py-3 px-4 w-32"></th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-50">
+            {casasOrdenadas.map(casa => (
+              <tr class="hover:bg-gray-50/60 transition-colors">
+                <td class="py-4 px-5">
+                  <div class="flex items-center gap-3">
+                    <div
+                      class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                      style={`background-color: ${casa.data.logoColor}`}
+                    >
+                      <span class="text-white font-black text-sm">{casa.data.nombre[0]}</span>
+                    </div>
+                    <span class="font-semibold text-gray-900">{casa.data.nombre}</span>
+                  </div>
+                </td>
+                <td class="py-4 px-4 text-gray-600">{casa.data.bonoBienvenida}</td>
+                <td class="py-4 px-4 text-center">
+                  <div class="inline-flex items-center gap-1">
+                    <svg class="w-3.5 h-3.5 text-amber-400 fill-current" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <span class="font-bold text-gray-900">{casa.data.rating.toFixed(1)}</span>
+                  </div>
+                </td>
+                <td class="py-4 px-4">
+                  <span class="inline-block bg-blue-50 text-blue-900 text-xs font-medium px-2.5 py-1 rounded-full">
+                    {casa.data.mejorPara}
+                  </span>
+                </td>
+                <td class="py-4 px-4">
+                  <a
+                    href={`/casas/${casa.slug}`}
+                    class="inline-flex items-center gap-1 text-xs font-semibold text-blue-900 hover:text-emerald-600 transition-colors"
+                  >
+                    Ver reseña
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Detailed cards -->
+  <section class="py-10 px-4 sm:px-6 lg:px-8 bg-gray-50">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-lg font-bold text-gray-900 mb-6">Reseñas detalladas</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {casasOrdenadas.map(casa => (
+          <div class="bg-white rounded-2xl border border-gray-100 p-6 hover:border-blue-200 hover:shadow-md transition-all">
+
+            <!-- Header -->
+            <div class="flex items-start gap-4 mb-5">
+              <div
+                class="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0"
+                style={`background-color: ${casa.data.logoColor}`}
+              >
+                <span class="text-white font-black text-xl">{casa.data.nombre[0]}</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between gap-2">
+                  <h3 class="font-bold text-gray-900 text-lg">{casa.data.nombre}</h3>
+                  <div class="flex items-center gap-1 flex-shrink-0">
+                    <svg class="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <span class="font-bold text-gray-900">{casa.data.rating.toFixed(1)}</span>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 text-xs font-semibold px-2.5 py-1 rounded-lg mt-1.5">
+                  {casa.data.bonoBienvenida}
+                </div>
+              </div>
+            </div>
+
+            <!-- Pros -->
+            <div class="mb-3">
+              <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Lo bueno</p>
+              <ul class="space-y-1.5">
+                {casa.data.pros.map(pro => (
+                  <li class="flex items-start gap-2 text-sm text-gray-700">
+                    <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    {pro}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <!-- Contras -->
+            <div class="mb-5">
+              <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Lo mejorable</p>
+              <ul class="space-y-1.5">
+                {casa.data.contras.map(contra => (
+                  <li class="flex items-start gap-2 text-sm text-gray-700">
+                    <svg class="w-4 h-4 text-gray-300 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                    </svg>
+                    {contra}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <a
+              href={`/casas/${casa.slug}`}
+              class="block text-center py-2.5 bg-blue-900 hover:bg-blue-800 text-white text-sm font-semibold rounded-xl transition-colors"
+            >
+              Leer reseña completa
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Evaluation criteria -->
+  <section class="py-12 px-4 sm:px-6 lg:px-8 bg-white border-t border-gray-100">
+    <div class="max-w-7xl mx-auto">
+      <div class="max-w-2xl mb-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-3">Cómo evaluamos las casas de apuestas</h2>
+        <p class="text-gray-500">
+          Nuestra metodología de evaluación es transparente y consistente en las cuatro dimensiones que más impactan
+          la experiencia de un apostador en México.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {criterios.map(criterio => (
+          <div class="bg-gray-50 rounded-2xl p-5 border border-gray-100">
+            <div class="text-2xl mb-3">{criterio.icono}</div>
+            <div class="flex items-baseline justify-between mb-2">
+              <h3 class="font-bold text-gray-900 text-sm">{criterio.titulo}</h3>
+              <span class="text-emerald-600 font-bold text-sm">{criterio.peso}</span>
+            </div>
+            <p class="text-gray-500 text-xs leading-relaxed">{criterio.descripcion}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

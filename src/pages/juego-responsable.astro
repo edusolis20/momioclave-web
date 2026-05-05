@@ -1,0 +1,379 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TestAutoevaluacion from '../components/juego-responsable/TestAutoevaluacion';
+
+const senales = [
+  { icono: '💸', texto: 'Apostar más dinero del que puedes permitirte perder' },
+  { icono: '🔄', texto: 'Volver a apostar para recuperar lo perdido ("perseguir pérdidas")' },
+  { icono: '🕐', texto: 'Pasar más tiempo apostando del que habías planeado' },
+  { icono: '😔', texto: 'Sentirte culpable, ansioso o deprimido después de apostar' },
+  { icono: '🤐', texto: 'Ocultar a familiares o amigos cuánto apuestas o cuánto has perdido' },
+  { icono: '📉', texto: 'Descuidar el trabajo, los estudios o las relaciones por el juego' },
+  { icono: '💳', texto: 'Pedir dinero prestado o vender cosas para financiar apuestas' },
+  { icono: '🎰', texto: 'Apostar como forma principal de manejar el estrés o las emociones' },
+  { icono: '🚫', texto: 'Intentar dejar o reducir y no poder hacerlo de forma sostenida' },
+];
+
+type RecursoTel = {
+  nombre: string;
+  descripcion: string;
+  etiqueta: string;
+  color: string;
+  tipo: 'tel';
+  ctaHref: string;
+  ctaTexto: string;
+};
+type RecursoWeb = {
+  nombre: string;
+  descripcion: string;
+  etiqueta: string;
+  color: string;
+  tipo: 'web';
+  ctaHref: string;
+  ctaTexto: string;
+};
+type Recurso = RecursoTel | RecursoWeb;
+
+const recursos: Recurso[] = [
+  {
+    nombre: 'Línea de la Vida / CONADIC',
+    descripcion:
+      'La línea oficial del gobierno mexicano para adicciones. Atendida por profesionales, completamente gratuita y confidencial. Disponible las 24 horas, los 365 días del año.',
+    etiqueta: 'Llamada gratuita · 24/7',
+    color: 'emerald',
+    tipo: 'tel',
+    ctaHref: 'tel:8009112000',
+    ctaTexto: '800 911 2000',
+  },
+  {
+    nombre: 'CIJ — Centros de Integración Juvenil',
+    descripcion:
+      'Red de centros especializados en tratamiento de adicciones con presencia en todo México. Ofrecen consulta, orientación y tratamiento para la persona afectada y su familia.',
+    etiqueta: 'Consulta presencial y online',
+    color: 'blue',
+    tipo: 'tel',
+    ctaHref: 'tel:8009112000',
+    ctaTexto: '800 911 2000',
+  },
+  {
+    nombre: 'Jugadores Anónimos México',
+    descripcion:
+      'Programa de 12 pasos para personas con problemas de juego. Grupos presenciales en las principales ciudades del país. Comunidad de apoyo entre personas que viven la misma experiencia.',
+    etiqueta: 'Grupos de apoyo · Sin costo',
+    color: 'purple',
+    tipo: 'web',
+    ctaHref: 'https://www.jamexico.org/',
+    ctaTexto: 'Visitar jamexico.org',
+  },
+];
+
+const autoexclusion = [
+  {
+    casa: 'Caliente',
+    instruccion: 'Desde tu cuenta → Perfil → Juego responsable → Autoexclusión. Puedes elegir periodos de 1 mes, 6 meses o permanente.',
+  },
+  {
+    casa: 'Playdoit',
+    instruccion: 'Contacta a soporte al cliente por chat o correo electrónico solicitando la autoexclusión. El proceso tarda menos de 24 horas.',
+  },
+  {
+    casa: 'Codere',
+    instruccion: 'Sección "Mi Cuenta" → "Límites y autoexclusión". Puedes establecer también límites de depósito diario, semanal o mensual.',
+  },
+  {
+    casa: 'Strendus',
+    instruccion: 'Panel de usuario → Configuración → Juego responsable. Ofrece opciones de pausa temporal o autoexclusión definitiva.',
+  },
+];
+
+const buenasPracticas = [
+  {
+    titulo: 'Define un presupuesto antes de entrar',
+    descripcion:
+      'Decide cuánto estás dispuesto a perder antes de abrir la aplicación. Ese monto es el costo de tu entretenimiento — no una inversión.',
+  },
+  {
+    titulo: 'Pon límites de tiempo, no solo de dinero',
+    descripcion:
+      'El tiempo es tan importante como el dinero. Una sesión con tiempo definido reduce la posibilidad de tomar decisiones impulsivas cuando ya llevas mucho tiempo apostando.',
+  },
+  {
+    titulo: 'No apuestes bajo presión emocional',
+    descripcion:
+      'El estrés, la tristeza o el aburrimiento son malos consejeros. Si estás pasando por un momento difícil, es mejor posponer. Las emociones intensas afectan la toma de decisiones.',
+  },
+  {
+    titulo: 'Nunca persigas una pérdida',
+    descripcion:
+      'Apostar para recuperar lo perdido es el patrón más peligroso en el juego. Si perdiste, la sesión terminó. Las pérdidas son parte del juego — no deudas que hay que saldar.',
+  },
+  {
+    titulo: 'Alterna el juego con otras actividades',
+    descripcion:
+      'El juego recreativo es una actividad entre muchas, no la única fuente de entretenimiento o emoción. Mantener otras aficiones es una señal de salud.',
+  },
+  {
+    titulo: 'Habla abiertamente de cuánto apuestas',
+    descripcion:
+      'Si no puedes contarle a alguien cercano cuánto apuestas o cuánto has perdido, es una señal de alerta. La transparencia es un buen termómetro de control.',
+  },
+];
+---
+
+<BaseLayout
+  title="Juego responsable — MomiosMX"
+  description="Información sobre ludopatía, señales de alerta, test de autoevaluación y recursos de ayuda en México. Apostar puede ser entretenimiento — o convertirse en un problema."
+>
+
+  <!-- 1. Hero -->
+  <section class="bg-white pt-14 pb-12 px-4 sm:px-6 lg:px-8 border-b border-gray-100">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-emerald-600 text-xs font-semibold uppercase tracking-widest mb-4">Juego responsable</p>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">
+        Cuándo el juego deja de ser juego
+      </h1>
+      <p class="text-gray-500 text-lg leading-relaxed max-w-2xl mx-auto">
+        Apostar puede ser una forma de entretenimiento. También puede convertirse en un problema serio.
+        Esta página no te va a juzgar — solo te da información para que puedas tomar decisiones informadas.
+      </p>
+    </div>
+  </section>
+
+  <!-- 2. Ayuda inmediata -->
+  <div class="bg-gray-900 px-4 sm:px-6 lg:px-8 py-5">
+    <div class="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <p class="text-white font-semibold text-sm">¿Necesitas ayuda ahora mismo?</p>
+        <p class="text-gray-400 text-xs mt-0.5">Línea de la Vida · Gratuita · Confidencial · 24/7</p>
+      </div>
+      <a
+        href="tel:8009112000"
+        class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-white font-bold px-5 py-3 rounded-xl text-sm transition-colors flex-shrink-0"
+      >
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+        </svg>
+        800 911 2000
+      </a>
+    </div>
+  </div>
+
+  <!-- 3. Qué es la ludopatía -->
+  <section class="py-14 px-4 sm:px-6 lg:px-8 bg-white">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">Qué es la ludopatía</h2>
+      <div class="space-y-4 text-gray-600 leading-relaxed">
+        <p>
+          La ludopatía — conocida clínicamente como trastorno de juego — es una condición en la que la persona
+          pierde el control sobre su conducta de juego, a pesar de las consecuencias negativas que esto genera
+          en su vida: económicas, familiares, laborales o emocionales.
+        </p>
+        <p>
+          No se trata de fuerza de voluntad ni de un defecto de carácter. El juego activa los mismos circuitos
+          de recompensa en el cerebro que otras adicciones — y en personas con cierta vulnerabilidad, ese
+          mecanismo puede desregularse. El Manual Diagnóstico y Estadístico de los Trastornos Mentales (DSM-5)
+          lo clasifica como un trastorno de adicción conductual, al mismo nivel que la adicción a sustancias.
+        </p>
+        <p>
+          En México, se estima que entre el 1% y el 3% de la población adulta presenta algún grado de juego
+          problemático. La cifra real probablemente sea mayor: la ludopatía es una de las adicciones con mayor
+          subdiagnóstico, en parte porque es invisible — no deja marcas físicas y es fácil ocultarla durante meses o años.
+        </p>
+        <p>
+          El problema raramente aparece de un día para otro. Suele desarrollarse de forma gradual: las apuestas
+          aumentan en frecuencia o monto, el juego se convierte en una forma de escapar del estrés, y las pérdidas
+          se persiguen en lugar de aceptarse. Para cuando la persona se da cuenta, el patrón ya está instalado.
+        </p>
+        <p>
+          La buena noticia: el trastorno de juego tiene tratamiento efectivo. La terapia cognitivo-conductual
+          ha demostrado resultados sólidos. Los grupos de apoyo como Jugadores Anónimos son un complemento
+          valioso. Y en muchos casos, la intervención temprana — antes de que el problema escale — es suficiente
+          para recuperar el control.
+        </p>
+        <p>
+          El primer paso, siempre, es reconocer el patrón.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Señales de alerta -->
+  <section class="py-14 px-4 sm:px-6 lg:px-8 bg-gray-50 border-t border-gray-100">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-2xl font-bold text-gray-900 mb-3">Señales de alerta</h2>
+      <p class="text-gray-500 mb-8 leading-relaxed">
+        Ninguna de estas señales por sí sola define un problema. Pero si reconoces varias de forma recurrente,
+        vale la pena prestarles atención.
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {senales.map(senal => (
+          <div class="bg-white border border-gray-100 rounded-xl p-4 flex items-start gap-3">
+            <span class="text-xl flex-shrink-0 mt-0.5">{senal.icono}</span>
+            <p class="text-sm text-gray-700 leading-relaxed">{senal.texto}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Test de autoevaluación -->
+  <section class="py-14 px-4 sm:px-6 lg:px-8 bg-white border-t border-gray-100">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-2xl font-bold text-gray-900 mb-3">Test de autoevaluación</h2>
+      <p class="text-gray-500 mb-8 leading-relaxed">
+        Las siguientes preguntas están basadas en los criterios diagnósticos del DSM-5 para el trastorno de juego.
+        Responde con honestidad — nadie más verá tus respuestas.
+      </p>
+      <TestAutoevaluacion client:load />
+    </div>
+  </section>
+
+  <!-- 6. Dónde buscar ayuda -->
+  <section id="recursos-ayuda" class="py-14 px-4 sm:px-6 lg:px-8 bg-gray-50 border-t border-gray-100">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-2xl font-bold text-gray-900 mb-3">Dónde buscar ayuda en México</h2>
+      <p class="text-gray-500 mb-8 leading-relaxed">
+        Existen recursos gratuitos y confidenciales. Pedir ayuda no requiere haber "tocado fondo" — cuanto antes,
+        mejor.
+      </p>
+      <div class="space-y-4">
+        {recursos.map(r => {
+          const badgeClass =
+            r.color === 'emerald' ? 'bg-emerald-50 text-emerald-700' :
+            r.color === 'blue'    ? 'bg-blue-50 text-blue-700' :
+                                    'bg-purple-50 text-purple-700';
+          const btnClass =
+            r.color === 'emerald' ? 'bg-emerald-600 hover:bg-emerald-700 text-white' :
+            r.color === 'blue'    ? 'bg-blue-900 hover:bg-blue-800 text-white' :
+                                    'bg-purple-700 hover:bg-purple-800 text-white';
+          return (
+            <div class="bg-white border border-gray-100 rounded-2xl p-6">
+              <div class="flex items-start justify-between gap-4 mb-3">
+                <h3 class="font-bold text-gray-900 text-base">{r.nombre}</h3>
+                <span class={`text-xs font-semibold px-2.5 py-1 rounded-full flex-shrink-0 ${badgeClass}`}>
+                  {r.etiqueta}
+                </span>
+              </div>
+              <p class="text-gray-600 text-sm leading-relaxed mb-4">{r.descripcion}</p>
+              {r.tipo === 'tel' ? (
+                <a
+                  href={r.ctaHref}
+                  class={`inline-flex items-center gap-2 font-bold text-sm px-4 py-2.5 rounded-lg transition-colors ${btnClass}`}
+                >
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                  </svg>
+                  {r.ctaTexto}
+                </a>
+              ) : (
+                <a
+                  href={r.ctaHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class={`inline-flex items-center gap-2 font-bold text-sm px-4 py-2.5 rounded-lg transition-colors ${btnClass}`}
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                  </svg>
+                  {r.ctaTexto}
+                </a>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Herramientas de autoexclusión -->
+  <section class="py-14 px-4 sm:px-6 lg:px-8 bg-white border-t border-gray-100">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-2xl font-bold text-gray-900 mb-3">Herramientas de autoexclusión</h2>
+      <p class="text-gray-500 mb-8 leading-relaxed">
+        Todas las casas de apuestas con permiso SEGOB están obligadas a ofrecer herramientas de autoexclusión.
+        Si sientes que necesitas tomar distancia del juego, puedes bloquear tu acceso directamente desde la plataforma.
+      </p>
+      <div class="space-y-3">
+        {autoexclusion.map(item => (
+          <div class="border border-gray-100 rounded-xl p-5">
+            <p class="font-semibold text-gray-900 text-sm mb-1.5">{item.casa}</p>
+            <p class="text-gray-500 text-sm leading-relaxed">{item.instruccion}</p>
+          </div>
+        ))}
+      </div>
+      <p class="text-xs text-gray-400 mt-4 leading-relaxed">
+        Si tienes dificultades para encontrar la opción de autoexclusión en alguna plataforma, puedes solicitar
+        ayuda directamente a su equipo de soporte. Por ley, están obligados a procesarla.
+      </p>
+    </div>
+  </section>
+
+  <!-- 8. Buenas prácticas -->
+  <section id="buenas-practicas" class="py-14 px-4 sm:px-6 lg:px-8 bg-gray-50 border-t border-gray-100">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-2xl font-bold text-gray-900 mb-3">Buenas prácticas para el apostador recreativo</h2>
+      <p class="text-gray-500 mb-8 leading-relaxed">
+        Si el juego es parte de tu ocio y quieres mantenerlo así, estos hábitos hacen la diferencia.
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {buenasPracticas.map(practica => (
+          <div class="bg-white border border-gray-100 rounded-xl p-5">
+            <h3 class="font-semibold text-gray-900 text-sm mb-2">{practica.titulo}</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">{practica.descripcion}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Cierre + CTA + disclaimer -->
+  <section class="py-14 px-4 sm:px-6 lg:px-8 bg-white border-t border-gray-100">
+    <div class="max-w-3xl mx-auto">
+
+      <div class="bg-gray-50 rounded-2xl p-8 mb-8">
+        <p class="text-gray-700 text-base leading-relaxed mb-4">
+          En MomiosMX creemos que el juego puede ser una forma de entretenimiento responsable. También
+          sabemos que para algunas personas se convierte en algo más. No lo ocultamos, no lo minimizamos.
+        </p>
+        <p class="text-gray-700 text-base leading-relaxed">
+          Si llegaste a esta página buscando información para ti o para alguien cercano, ya diste un paso
+          importante. El reconocimiento es siempre el primero.
+        </p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-gray-900 rounded-2xl p-6 mb-8">
+        <div>
+          <p class="text-white font-semibold">Línea de la Vida — CONADIC</p>
+          <p class="text-gray-400 text-sm mt-0.5">Gratuita · Confidencial · 24 horas al día</p>
+        </div>
+        <a
+          href="tel:8009112000"
+          class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-white font-bold px-5 py-3 rounded-xl text-sm transition-colors flex-shrink-0"
+        >
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+          </svg>
+          800 911 2000
+        </a>
+      </div>
+
+      <div class="border-t border-gray-100 pt-6">
+        <p class="text-xs text-gray-400 leading-relaxed">
+          El contenido de esta página tiene fines únicamente informativos y no constituye asesoramiento médico
+          ni psicológico. El test de autoevaluación está basado en criterios del DSM-5 y es orientativo —
+          no reemplaza una evaluación clínica profesional. Si tienes preocupaciones sobre tu relación con el
+          juego, consulta con un profesional de la salud mental. MomiosMX no ofrece servicios de tratamiento
+          ni está afiliado a ninguna organización de salud.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  html {
+    scroll-behavior: smooth;
+  }
+</style>

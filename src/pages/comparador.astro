@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ComparadorTabla from '../components/comparador/ComparadorTabla';
+
+const comoUsar = [
+  {
+    num: '01',
+    titulo: 'Identifica el partido',
+    descripcion:
+      'Encuentra el partido donde quieres apostar usando los filtros de jornada y deporte. Puedes ordenar por fecha o por diferencial para priorizar los partidos con más value.',
+  },
+  {
+    num: '02',
+    titulo: 'Compara el resultado que te interesa',
+    descripcion:
+      'Local, empate o visitante. El verde indica dónde está el mejor momio disponible ahora mismo. El porcentaje de diferencial te dice cuánto varían las casas entre sí.',
+  },
+  {
+    num: '03',
+    titulo: 'Apuesta donde tiene más valor',
+    descripcion:
+      'Una diferencia de 0.10 en el momio decimal puede parecer poco, pero a largo plazo es la diferencia entre ganar o perder. Cada centésima de momio suma.',
+  },
+];
+---
+
+<BaseLayout
+  title="Comparador de momios Liga MX — MomiosMX"
+  description="Compara los momios de Caliente, Playdoit, Codere y Strendus para Liga MX en tiempo real. Encuentra el mejor valor en cada partido antes de apostar."
+>
+
+  <!-- ── Hero ──────────────────────────────────────────────────────────────── -->
+  <section class="bg-white pt-14 pb-10 px-4 sm:px-6 lg:px-8 border-b border-gray-100">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-emerald-600 text-xs font-semibold uppercase tracking-widest mb-4">
+        Comparador de momios
+      </p>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">
+        Mejores momios disponibles ahora mismo
+      </h1>
+      <p class="text-gray-500 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto mb-6">
+        Comparamos los momios de Caliente, Playdoit, Codere y Strendus para que encuentres
+        el mejor valor en cada apuesta. El verde marca el mejor momio disponible para ese resultado.
+      </p>
+      <div class="inline-flex items-center gap-2 text-sm text-gray-400">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
+        Actualizado hace 12 minutos · Liga MX Clausura 2026
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Comparador React (filtros + tabla) ────────────────────────────────── -->
+  <ComparadorTabla client:load />
+
+  <!-- ── Cómo usar el comparador ───────────────────────────────────────────── -->
+  <section class="py-14 px-4 sm:px-6 lg:px-8 bg-white border-t border-gray-100">
+    <div class="max-w-7xl mx-auto">
+      <div class="max-w-2xl mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-3">Cómo usar el comparador</h2>
+        <p class="text-gray-500 leading-relaxed">
+          Tres pasos para convertir la comparación de momios en una ventaja real antes de apostar.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {comoUsar.map(paso => (
+          <div class="bg-gray-50 border border-gray-100 rounded-2xl p-6">
+            <span class="text-3xl font-black text-gray-100 leading-none block mb-4">{paso.num}</span>
+            <h3 class="font-bold text-gray-900 text-base mb-2">{paso.titulo}</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">{paso.descripcion}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer del comparador ─────────────────────────────────────────────── -->
+  <section class="py-10 px-4 sm:px-6 lg:px-8 bg-gray-50 border-t border-gray-100">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="flex items-start gap-3">
+          <span class="text-lg flex-shrink-0 mt-0.5">🔄</span>
+          <p class="text-xs text-gray-500 leading-relaxed">
+            Momios actualizados cada 15 minutos durante horario activo de partidos.
+          </p>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="text-lg flex-shrink-0 mt-0.5">📋</span>
+          <p class="text-xs text-gray-500 leading-relaxed">
+            MomiosMX no opera apuestas. Mostramos información pública de cada operador
+            para tu decisión informada.
+          </p>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="text-lg flex-shrink-0 mt-0.5">🔗</span>
+          <p class="text-xs text-gray-500 leading-relaxed">
+            Los enlaces a casas de apuestas pueden ser de afiliados. Esto no afecta cuál
+            casa marcamos como mejor — siempre mostramos los datos reales.
+          </p>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="text-lg flex-shrink-0 mt-0.5">🛡️</span>
+          <p class="text-xs text-gray-500 leading-relaxed">
+            Apuesta con responsabilidad.{' '}
+            <a href="/juego-responsable" class="text-blue-900 underline underline-offset-1 hover:text-emerald-600 transition-colors">
+              Recursos de ayuda →
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <p class="text-xs text-gray-400 border-t border-gray-200 pt-6 leading-relaxed">
+        Solo incluimos operadores con permiso SEGOB vigente en México: Caliente, Playdoit, Codere y Strendus.
+        Los momios mostrados son de carácter informativo. MomiosMX no garantiza su exactitud en tiempo real.
+        +18 · Solo mayores de edad.
+      </p>
+    </div>
+  </section>
+
+</BaseLayout>

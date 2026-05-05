@@ -1,0 +1,322 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NewsletterCapture from '../../components/home/NewsletterCapture.astro';
+import { partidos, getMejorMomio } from '../../data/partidos';
+import type { Casa as CasaKey } from '../../data/partidos';
+
+export async function getStaticPaths() {
+  const casas = await getCollection('casas');
+  return casas.map(casa => ({
+    params: { slug: casa.slug },
+    props: { casa },
+  }));
+}
+
+const { casa } = Astro.props;
+const { Content } = await casa.render();
+const d = casa.data;
+
+// Mini momios table: first 4 matches, show this casa vs. best available
+const CASAS_KEYS: CasaKey[] = ['caliente', 'playdoit', 'codere', 'strendus'];
+const casaKey = casa.slug as CasaKey;
+const miniPartidos = partidos.slice(0, 4);
+
+function ratingLabel(v: number) {
+  if (v >= 4.5) return 'Excelente';
+  if (v >= 4.0) return 'Muy bueno';
+  if (v >= 3.5) return 'Bueno';
+  return 'Regular';
+}
+
+const dimensiones = [
+  { label: 'Calidad de momios', value: d.ratingDetallado.momios },
+  { label: 'Velocidad de retiros', value: d.ratingDetallado.retiros },
+  { label: 'Variedad de mercados', value: d.ratingDetallado.mercados },
+  { label: 'Experiencia de usuario', value: d.ratingDetallado.ux },
+];
+---
+
+<BaseLayout
+  title={`Reseña ${d.nombre} ${new Date().getFullYear()}`}
+  description={`Reseña completa de ${d.nombre}. Momios, bonos, retiros y experiencia de usuario. Evaluación independiente.`}
+>
+
+  <!-- Hero de reseña -->
+  <section class="bg-white pt-12 pb-10 px-4 sm:px-6 lg:px-8 border-b border-gray-100">
+    <div class="max-w-5xl mx-auto">
+
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 text-xs text-gray-400 mb-8">
+        <a href="/" class="hover:text-gray-600">Inicio</a>
+        <span>/</span>
+        <a href="/casas" class="hover:text-gray-600">Casas</a>
+        <span>/</span>
+        <span class="text-gray-600">{d.nombre}</span>
+      </nav>
+
+      <div class="flex flex-col sm:flex-row sm:items-start gap-6">
+
+        <!-- Logo -->
+        <div
+          class="w-20 h-20 rounded-2xl flex items-center justify-center flex-shrink-0"
+          style={`background-color: ${d.logoColor}`}
+        >
+          <span class="text-white font-black text-3xl">{d.nombre[0]}</span>
+        </div>
+
+        <!-- Info -->
+        <div class="flex-1">
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2">{d.nombre}</h1>
+
+          <!-- Rating -->
+          <div class="flex items-center gap-2 mb-3">
+            <div class="flex items-center gap-0.5">
+              {[1,2,3,4,5].map(i => (
+                <svg class={`w-5 h-5 ${i <= Math.round(d.rating) ? 'text-amber-400' : 'text-gray-200'} fill-current`} viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                </svg>
+              ))}
+            </div>
+            <span class="font-bold text-gray-900 text-lg">{d.rating.toFixed(1)}</span>
+            <span class="text-gray-400 text-sm">/ 5.0</span>
+          </div>
+
+          <!-- Bono badge -->
+          <div class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 text-sm font-semibold px-3 py-1.5 rounded-lg mb-5">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z" clip-rule="evenodd"/>
+              <path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"/>
+            </svg>
+            {d.bonoBienvenida}
+          </div>
+
+          <!-- CTAs -->
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a
+              href="#"
+              class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl transition-colors text-sm"
+            >
+              Visitar {d.nombre}
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+            </a>
+            <a
+              href="/comparador"
+              class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-white hover:bg-gray-50 text-blue-900 font-semibold rounded-xl transition-colors text-sm border border-gray-200"
+            >
+              Ver comparador de momios
+            </a>
+          </div>
+          <p class="text-xs text-gray-400 mt-2.5">
+            Enlace de afiliado. Esto no afecta nuestra evaluación independiente.
+            <a href="/juego-responsable" class="underline hover:text-gray-600">+18. Juega responsablemente.</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick summary table -->
+  <section class="py-8 px-4 sm:px-6 lg:px-8 bg-gray-50 border-b border-gray-100">
+    <div class="max-w-5xl mx-auto">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {[
+          { label: 'Fundada en', value: d.añoFundacion.toString() },
+          { label: 'Permiso SEGOB', value: d.permisoSEGOB },
+          { label: 'Depósito mínimo', value: d.depositoMinimo },
+          { label: 'Deportes cubiertos', value: `${d.deportes}+` },
+        ].map(item => (
+          <div class="bg-white rounded-xl p-4 border border-gray-100">
+            <p class="text-xs text-gray-400 uppercase tracking-wide mb-1">{item.label}</p>
+            <p class="font-bold text-gray-900">{item.value}</p>
+          </div>
+        ))}
+      </div>
+      <div class="mt-4 bg-white rounded-xl p-4 border border-gray-100">
+        <p class="text-xs text-gray-400 uppercase tracking-wide mb-2">Métodos de pago</p>
+        <div class="flex flex-wrap gap-2">
+          {d.metodosPago.map(metodo => (
+            <span class="px-2.5 py-1 bg-gray-50 text-gray-700 text-xs font-medium rounded-full border border-gray-100">
+              {metodo}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Review content -->
+  <div class="py-10 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+
+        <!-- Main content -->
+        <div class="lg:col-span-2">
+
+          <!-- Pros -->
+          <div class="mb-8">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <span class="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center">
+                <svg class="w-3.5 h-3.5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+              </span>
+              Lo que hace bien
+            </h2>
+            <ul class="space-y-2">
+              {d.pros.map(pro => (
+                <li class="flex items-start gap-3 p-3 bg-emerald-50 rounded-xl">
+                  <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span class="text-sm text-gray-800">{pro}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Contras -->
+          <div class="mb-8">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <span class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center">
+                <svg class="w-3.5 h-3.5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                </svg>
+              </span>
+              Lo que podría mejorar
+            </h2>
+            <ul class="space-y-2">
+              {d.contras.map(contra => (
+                <li class="flex items-start gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100">
+                  <svg class="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                  </svg>
+                  <span class="text-sm text-gray-700">{contra}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Narrative content from markdown -->
+          <div class="review-content">
+            <Content />
+          </div>
+
+          <!-- Mini momios table -->
+          <div class="mt-8 pt-8 border-t border-gray-100">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">Momios de ejemplo: Liga MX</h2>
+            <p class="text-sm text-gray-500 mb-4">
+              Comparamos el momio de <strong>{d.nombre}</strong> contra el mejor disponible del mercado en los siguientes partidos:
+            </p>
+            <div class="overflow-x-auto rounded-xl border border-gray-100">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <th class="text-left py-3 px-4 font-semibold text-gray-600 text-xs uppercase">Partido</th>
+                    <th class="text-center py-3 px-4 font-semibold text-gray-600 text-xs uppercase">{d.nombre}</th>
+                    <th class="text-center py-3 px-4 font-semibold text-gray-600 text-xs uppercase">Mejor del mercado</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50">
+                  {miniPartidos.map(partido => {
+                    const myMomio = casaKey in partido.momios.local ? partido.momios.local[casaKey] : null;
+                    const mejor = getMejorMomio(partido.momios.local);
+                    const esMejor = mejor.casa === casaKey;
+                    return (
+                      <tr class="hover:bg-gray-50/60">
+                        <td class="py-3 px-4 font-medium text-gray-900">
+                          {partido.local} vs {partido.visitante}
+                          <div class="text-xs text-gray-400">Local</div>
+                        </td>
+                        <td class={`py-3 px-4 text-center font-bold ${esMejor ? 'text-emerald-600' : 'text-gray-700'}`}>
+                          {myMomio !== null ? myMomio.toFixed(2) : '—'}
+                          {esMejor && <div class="text-xs text-emerald-500 font-normal">Mejor</div>}
+                        </td>
+                        <td class="py-3 px-4 text-center text-gray-600">
+                          {mejor.valor.toFixed(2)}
+                          <div class="text-xs text-gray-400">{mejor.casa}</div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            <p class="text-xs text-gray-400 mt-2">Momios en formato decimal. Datos mock de ejemplo.</p>
+          </div>
+        </div>
+
+        <!-- Sidebar: rating breakdown -->
+        <div class="lg:col-span-1">
+          <div class="sticky top-24 bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
+            <h3 class="font-bold text-gray-900 mb-5">Calificación detallada</h3>
+            <div class="space-y-4">
+              {dimensiones.map(dim => (
+                <div>
+                  <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-sm text-gray-700">{dim.label}</span>
+                    <div class="flex items-center gap-1.5">
+                      <span class="font-bold text-gray-900 text-sm">{dim.value.toFixed(1)}</span>
+                      <span class="text-xs text-gray-400">/ 5</span>
+                    </div>
+                  </div>
+                  <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                    <div
+                      class="h-full rounded-full bg-emerald-500 transition-all"
+                      style={`width: ${(dim.value / 5) * 100}%`}
+                    ></div>
+                  </div>
+                  <div class="text-xs text-gray-400 mt-0.5">{ratingLabel(dim.value)}</div>
+                </div>
+              ))}
+            </div>
+
+            <div class="mt-6 pt-5 border-t border-gray-100">
+              <div class="flex items-center justify-between mb-3">
+                <span class="font-semibold text-gray-900">Rating final</span>
+                <div class="flex items-center gap-1">
+                  <svg class="w-5 h-5 text-amber-400 fill-current" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                  </svg>
+                  <span class="font-extrabold text-gray-900 text-xl">{d.rating.toFixed(1)}</span>
+                </div>
+              </div>
+              <a
+                href="#"
+                class="block text-center py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl transition-colors text-sm"
+              >
+                Visitar {d.nombre}
+              </a>
+              <p class="text-xs text-gray-400 text-center mt-2">+18 · Juega responsablemente</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <NewsletterCapture />
+
+</BaseLayout>
+
+<style>
+  .review-content :global(h2) {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111827;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  .review-content :global(p) {
+    color: #374151;
+    line-height: 1.75;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+  .review-content :global(strong) {
+    font-weight: 600;
+    color: #111827;
+  }
+</style>

@@ -1,0 +1,128 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { CLUSTERS } from '../../data/articulos';
+import type { Cluster } from '../../data/articulos';
+
+const articulos = await getCollection('articulos');
+const ordenados = [...articulos].sort(
+  (a, b) => new Date(a.data.fecha).getTime() - new Date(b.data.fecha).getTime()
+);
+
+const clusters = Object.keys(CLUSTERS) as Cluster[];
+---
+
+<BaseLayout
+  title="Aprende a apostar"
+  description="Centro educativo sobre apuestas deportivas. Fundamentos, mercados, estrategia y psicología del apostador. Sin pronósticos."
+>
+
+  <!-- Hero -->
+  <section class="bg-white pt-14 pb-12 px-4 sm:px-6 lg:px-8 border-b border-gray-100">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-emerald-600 text-xs font-semibold uppercase tracking-widest mb-4">Centro educativo</p>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">
+        Aprende a apostar con criterio
+      </h1>
+      <p class="text-gray-500 text-lg leading-relaxed">
+        No publicamos pronósticos. Publicamos educación. Entender cómo funcionan los momios
+        es la única ventaja real que puede tener un apostador recreativo.
+      </p>
+    </div>
+  </section>
+
+  <!-- Filter tabs -->
+  <div id="filtros" class="sticky top-16 z-40 bg-white border-b border-gray-100 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex gap-1 overflow-x-auto py-3 scrollbar-hide">
+        <button
+          data-filter="todos"
+          class="filter-btn active flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-blue-900 text-white"
+        >
+          Todos ({ordenados.length})
+        </button>
+        {clusters.map(cluster => {
+          const info = CLUSTERS[cluster];
+          const count = ordenados.filter(a => a.data.cluster === cluster).length;
+          return (
+            <button
+              data-filter={cluster}
+              class="filter-btn flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-colors text-gray-600 hover:text-blue-900 hover:bg-gray-50"
+            >
+              {info.icono} {info.nombre} ({count})
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+
+  <!-- Article grid -->
+  <section class="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50 min-h-[60vh]">
+    <div class="max-w-7xl mx-auto">
+      <div id="articulos-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {ordenados.map(articulo => {
+          const cluster = CLUSTERS[articulo.data.cluster];
+          return (
+            <article
+              data-cluster={articulo.data.cluster}
+              class="articulo-card group bg-white border border-gray-100 rounded-2xl p-6 hover:border-blue-200 hover:shadow-md transition-all flex flex-col"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="inline-flex items-center gap-1.5 bg-gray-50 px-3 py-1 rounded-full text-xs font-semibold text-gray-600">
+                  <span>{cluster.icono}</span>
+                  {cluster.nombre}
+                </div>
+                <span class="text-xs text-gray-400">{articulo.data.tiempoLectura} min</span>
+              </div>
+
+              <h2 class="font-bold text-gray-900 text-base leading-snug mb-2 group-hover:text-blue-900 transition-colors flex-1">
+                {articulo.data.titulo}
+              </h2>
+
+              <p class="text-gray-500 text-sm leading-relaxed mb-5">
+                {articulo.data.descripcion}
+              </p>
+
+              <a
+                href={`/aprende/${articulo.slug}`}
+                class="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-900 hover:text-emerald-600 transition-colors mt-auto"
+              >
+                Leer artículo
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+              </a>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<script>
+  const btns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const cards = document.querySelectorAll<HTMLElement>('.articulo-card');
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter ?? 'todos';
+
+      // Update active button
+      btns.forEach(b => {
+        b.classList.remove('bg-blue-900', 'text-white');
+        b.classList.add('text-gray-600', 'hover:text-blue-900', 'hover:bg-gray-50');
+      });
+      btn.classList.add('bg-blue-900', 'text-white');
+      btn.classList.remove('text-gray-600', 'hover:text-blue-900', 'hover:bg-gray-50');
+
+      // Filter cards
+      cards.forEach(card => {
+        const match = filter === 'todos' || card.dataset.cluster === filter;
+        card.style.display = match ? '' : 'none';
+      });
+    });
+  });
+</script>
