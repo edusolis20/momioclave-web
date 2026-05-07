@@ -1,5 +1,7 @@
 # MomioClave — Guía del proyecto para Claude Code
 
+> ⚠️ **MODO DISCRETO ACTIVO**: El sitio tiene meta tag noindex y robots.txt bloqueando indexación. Esto es temporal hasta el lanzamiento oficial en Sprint 4. Para activar indexación, remover el meta tag robots en `src/layouts/BaseLayout.astro` y actualizar `public/robots.txt`.
+
 > Este archivo es la fuente de verdad sobre el proyecto. Léelo completo al inicio de cada sesión.
 > Actualízalo cuando se tomen decisiones importantes (estilo, stack, posicionamiento).
 
