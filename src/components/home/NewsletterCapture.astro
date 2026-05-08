@@ -15,37 +15,21 @@
 
       <!-- Copy -->
       <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
-        Un artículo por semana. Sin spam.
+        Un análisis por semana. Sin spam.
       </h2>
       <p class="text-gray-500 text-base mb-8">
         Cada semana un análisis profundo sobre momios, estrategia o psicología de las apuestas.
         Sin pronósticos. Sin "tips del día". Solo educación honesta.
       </p>
 
-      <!-- Form -->
-      <form
-        id="newsletter-form"
-        class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
-        novalidate
-      >
-        <input
-          type="email"
-          name="email"
-          placeholder="tu@correo.com"
-          required
-          class="flex-1 px-4 py-3 bg-white text-gray-900 placeholder-gray-400 border border-gray-200 rounded-xl focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-sm"
-        />
-        <button
-          type="submit"
-          class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl transition-colors text-sm whitespace-nowrap"
-        >
-          Suscribirme
-        </button>
-      </form>
-
-      <!-- Success message (hidden by default) -->
-      <div id="newsletter-success" class="hidden mt-4 text-emerald-600 text-sm font-medium">
-        ¡Listo! Te avisamos con el próximo artículo.
+      <!-- Beehiiv embed -->
+      <div class="max-w-md mx-auto">
+        <script
+          async
+          src="https://subscribe-forms.beehiiv.com/v3/loader.js"
+          data-beehiiv-form="50cbdd4a-049c-4abd-a3dc-8ffefcb43f44"
+          is:inline
+        ></script>
       </div>
 
       <p class="text-gray-400 text-xs mt-4">
@@ -55,18 +39,3 @@
     </div>
   </div>
 </section>
-
-<script>
-  const form = document.getElementById('newsletter-form') as HTMLFormElement | null;
-  const success = document.getElementById('newsletter-success');
-
-  form?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const email = (form.elements.namedItem('email') as HTMLInputElement)?.value;
-    if (!email) return;
-
-    // Mock submission
-    form.classList.add('hidden');
-    success?.classList.remove('hidden');
-  });
-</script>
