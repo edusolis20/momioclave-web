@@ -30,3 +30,9 @@ Thumbs.db
 
 # Internal planning documents
 Plan de trabajo/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
