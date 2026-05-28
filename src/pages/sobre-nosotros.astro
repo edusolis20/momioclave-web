@@ -1,0 +1,159 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const noHacemos = [
+  'Pronósticos del partido del día',
+  '"Tips garantizados" o "selecciones del experto"',
+  'Promesas de ganar dinero rápido',
+  'Sistemas mágicos o "trucos secretos"',
+  'Recomendaciones basadas en quién nos paga más',
+  'Contenido dirigido a menores de edad',
+  'Banners agresivos que te empujen a apostar',
+];
+
+const principios = [
+  {
+    titulo: 'Honestidad matemática sobre todas las cosas',
+    descripcion:
+      'Las apuestas son matemáticas, no magia. Si una casa tiene ventaja del 5%, lo decimos. Si una estrategia es estadísticamente perdedora, lo decimos. No vendemos sueños.',
+  },
+  {
+    titulo: 'Profundidad sobre frecuencia',
+    descripcion:
+      'Preferimos un análisis riguroso por semana que cinco posts superficiales por día. La gente que apuesta en serio merece contenido que respete su inteligencia.',
+  },
+  {
+    titulo: 'Sin tipsters ni pronósticos',
+    descripcion:
+      'No te decimos quién va a ganar el partido. Nadie lo sabe con certeza, y quien te diga lo contrario te está mintiendo. Lo que sí hacemos es enseñarte a identificar dónde hay value y dónde no.',
+  },
+  {
+    titulo: 'Respeto al juego responsable',
+    descripcion:
+      'Las apuestas pueden ser entretenimiento o pueden ser un problema serio. No pretendemos lo contrario. Por eso tenemos una sección entera dedicada a juego responsable, con herramientas reales para quien las necesite.',
+  },
+];
+---
+
+<BaseLayout
+  title="Sobre nosotros · MomioClave"
+  description="Conoce a las personas detrás de MomioClave. Análisis honesto sobre apuestas deportivas en México, sin tipsters ni pronósticos."
+>
+
+  <!-- 1. Hero -->
+  <section class="bg-white pt-14 pb-12 px-4 sm:px-6 lg:px-8 border-b border-gray-100">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-emerald-600 text-xs font-semibold uppercase tracking-widest mb-4">Sobre nosotros</p>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">
+        Por qué existe MomioClave
+      </h1>
+      <p class="text-gray-500 text-lg leading-relaxed max-w-2xl mx-auto">
+        Cada año, millones de mexicanos apuestan sin entender realmente cómo funcionan los momios.
+        La mayoría pierde dinero no porque tenga mala suerte — pierde dinero porque no sabe leer el
+        juego que está jugando. Eso es lo que vinimos a cambiar.
+      </p>
+    </div>
+  </section>
+
+  <!-- 2. Quiénes somos -->
+  <section class="py-14 px-4 sm:px-6 lg:px-8 bg-white">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">Quiénes estamos detrás</h2>
+      <div class="space-y-4 text-gray-600 leading-relaxed">
+        <p>
+          MomioClave fue creado por analistas con experiencia directa en la industria de apuestas
+          deportivas en México. Hemos trabajado del lado de los operadores — viendo cómo se calculan
+          los momios, cómo se construyen los márgenes, qué decisiones matemáticas hay detrás de cada
+          línea que ves en una casa de apuestas.
+        </p>
+        <p>
+          Ese conocimiento insider es lo que aplicamos aquí, pero con una diferencia clave: estamos del
+          lado del apostador, no del operador. Nuestro trabajo es traducir lo que sabemos en información
+          que te ayude a tomar mejores decisiones — o a entender por qué tomar ciertas decisiones es
+          matemáticamente mala idea.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Filosofía editorial -->
+  <section class="py-14 px-4 sm:px-6 lg:px-8 bg-gray-50 border-t border-gray-100">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-2xl font-bold text-gray-900 mb-8">Nuestra filosofía editorial</h2>
+      <div class="space-y-4">
+        {principios.map((p, i) => (
+          <div class="bg-white border border-gray-100 rounded-2xl p-6 flex gap-5">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center">
+              <span class="text-emerald-600 font-bold text-sm">{i + 1}</span>
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-900 mb-2">{p.titulo}</h3>
+              <p class="text-gray-500 text-sm leading-relaxed">{p.descripcion}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Cómo nos monetizamos -->
+  <section class="py-14 px-4 sm:px-6 lg:px-8 bg-white border-t border-gray-100">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">Transparencia sobre dinero</h2>
+      <div class="space-y-4 text-gray-600 leading-relaxed">
+        <p>
+          Mantener un sitio como este cuesta tiempo y dinero. Para que MomioClave sea sostenible,
+          eventualmente recibiremos comisiones cuando los lectores se registran en algunas de las
+          casas de apuestas que mencionamos. Es un modelo común en sitios afiliados.
+        </p>
+        <p>
+          Lo importante: estas comisiones <strong class="text-gray-900">NO afectan nuestras recomendaciones</strong>.
+          Cuando marcamos un momio como mejor, es porque es matemáticamente el mejor — sin importar si
+          esa casa nos paga más o menos por afiliados. Si descubriéramos que solo podemos mantenernos
+          recomendando casas que pagan más, cerraríamos el sitio. La integridad editorial no está en venta.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Lo que no hacemos -->
+  <section class="py-14 px-4 sm:px-6 lg:px-8 bg-gray-50 border-t border-gray-100">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-2xl font-bold text-gray-900 mb-8">Lo que no vas a encontrar aquí</h2>
+      <div class="bg-white border border-gray-100 rounded-2xl p-6 sm:p-8">
+        <ul class="space-y-3">
+          {noHacemos.map(item => (
+            <li class="flex items-start gap-3">
+              <span class="text-red-500 font-bold text-base flex-shrink-0 mt-0.5">✕</span>
+              <span class="text-gray-600 text-sm leading-relaxed">{item}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="text-gray-500 text-sm mt-6 pt-5 border-t border-gray-100 leading-relaxed">
+          Si vienes buscando alguna de estas cosas, te ahorraremos tiempo: no estamos aquí para eso.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Contacto -->
+  <section class="py-14 px-4 sm:px-6 lg:px-8 bg-white border-t border-gray-100">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">Hablemos</h2>
+      <p class="text-gray-600 leading-relaxed mb-6">
+        Si tienes dudas, sugerencias o quieres colaborar, escríbenos. Leemos cada mensaje.
+      </p>
+      <a
+        href="mailto:hola@momioclave.com"
+        class="inline-flex items-center gap-2 text-blue-900 font-semibold hover:underline text-base"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+        </svg>
+        hola@momioclave.com
+      </a>
+    </div>
+  </section>
+
+</BaseLayout>
