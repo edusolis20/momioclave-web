@@ -2,6 +2,8 @@
 
 > ⚠️ **MODO DISCRETO ACTIVO**: El sitio tiene meta tag noindex y robots.txt bloqueando indexación. Esto es temporal hasta el lanzamiento oficial en Sprint 4. Para activar indexación, remover el meta tag robots en `src/layouts/BaseLayout.astro` y actualizar `public/robots.txt`.
 
+> ⚠️ **DEUDA TÉCNICA — NEWSLETTER**: El form de newsletter en home renderiza el embed de Beehiiv pero las suscripciones no llegan. Pendiente de retomar antes del soft launch (Sprint 4). Solución probable: reemplazar embed por botón CTA que abra `momioclave.beehiiv.com/subscribe` directamente.
+
 > Este archivo es la fuente de verdad sobre el proyecto. Léelo completo al inicio de cada sesión.
 > Actualízalo cuando se tomen decisiones importantes (estilo, stack, posicionamiento).
 
